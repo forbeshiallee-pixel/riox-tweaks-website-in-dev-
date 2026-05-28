@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RioX Universe — Ultimate Windows Optimization</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#050816;
+--card:rgba(13,18,40,.65);
+--text:#eef2ff;
+--muted:#a5afd7;
+--primary:#7c5cff;
+--secondary:#22d3ee;
+--accent:linear-gradient(135deg,#7c5cff,#22d3ee);
+}
+html{scroll-behavior:smooth}
+body{
+font-family:Inter,sans-serif;
+background:radial-gradient(circle at top,#10193d 0%,#050816 55%,#000 100%);
+color:var(--text);
+overflow-x:hidden;
+}
+canvas{
+position:fixed;
+inset:0;
+z-index:-1;
+}
+header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:22px 5%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+backdrop-filter:blur(20px);
+background:rgba(0,0,0,.25);
+border-bottom:1px solid rgba(255,255,255,.06);
+z-index:999;
+}
+.logo{
+display:flex;
+align-items:center;
+gap:14px;
+font-size:1.4rem;
+font-weight:800;
+}
+.logo-box{
+width:52px;
+height:52px;
+border-radius:18px;
+background:var(--accent);
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 0 40px rgba(124,92,255,.45);
+}
+nav{
+display:flex;
+gap:34px;
+}
+nav a{
+color:var(--muted);
+text-decoration:none;
+font-weight:600;
+transition:.25s;
+}
+nav a:hover{color:#fff}
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:140px 8% 80px;
+gap:60px;
+}
+.hero-content{max-width:700px}
+.tag{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:10px 18px;
+border-radius:999px;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.08);
+margin-bottom:28px;
+color:#d9dfff;
+}
+.hero h1{
+font-size:clamp(3rem,8vw,6rem);
+line-height:1;
+font-weight:900;
+margin-bottom:28px;
+letter-spacing:-4px;
+}
+.gradient{
+background:var(--accent);
+-webkit-background-clip:text;
+color:transparent;
+}
+.hero p{
+font-size:1.1rem;
+line-height:1.8;
+color:var(--muted);
+margin-bottom:40px;
+}
+.buttons{display:flex;gap:18px;flex-wrap:wrap}
+.btn{
+padding:16px 28px;
+border-radius:18px;
+border:none;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+}
+.btn-primary{
+background:var(--accent);
+color:white;
+box-shadow:0 10px 40px rgba(124,92,255,.4);
+}
+.btn-secondary{
+background:rgba(255,255,255,.06);
+color:white;
+border:1px solid rgba(255,255,255,.08);
+}
+.btn:hover{transform:translateY(-4px) scale(1.02)}
+.hero-card{
+width:420px;
+background:var(--card);
+backdrop-filter:blur(24px);
+border:1px solid rgba(255,255,255,.08);
+padding:34px;
+border-radius:36px;
+box-shadow:0 30px 80px rgba(0,0,0,.4);
+}
+.hero-card h3{font-size:1.8rem;margin-bottom:20px}
+.metric{margin-bottom:24px}
+.metric-top{
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+}
+.bar{
+height:12px;
+background:#1a2246;
+border-radius:999px;
+overflow:hidden;
+}
+.fill{
+height:100%;
+background:var(--accent);
+border-radius:999px;
+}
+.section{
+padding:120px 8%;
+}
+.section-title{
+text-align:center;
+margin-bottom:70px;
+}
+.section-title span{
+color:var(--secondary);
+text-transform:uppercase;
+letter-spacing:3px;
+font-size:.8rem;
+}
+.section-title h2{
+font-size:3.4rem;
+margin-top:18px;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:28px;
+}
+.card{
+background:var(--card);
+padding:34px;
+border-radius:30px;
+border:1px solid rgba(255,255,255,.06);
+transition:.35s;
+backdrop-filter:blur(18px);
+position:relative;
+overflow:hidden;
+}
+.card:before{
+content:'';
+position:absolute;
+inset:0;
+background:linear-gradient(180deg,rgba(255,255,255,.06),transparent);
+opacity:0;
+transition:.35s;
+}
+.card:hover:before{opacity:1}
+.card:hover{
+transform:translateY(-10px);
+border-color:rgba(124,92,255,.4);
+}
+.icon{
+width:70px;
+height:70px;
+border-radius:24px;
+background:var(--accent);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:1.6rem;
+margin-bottom:24px;
+box-shadow:0 12px 40px rgba(124,92,255,.35);
+}
+.card h3{font-size:1.5rem;margin-bottom:14px}
+.card p{color:var(--muted);line-height:1.7}
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:26px;
+margin-top:40px;
+}
+.stat{
+background:var(--card);
+padding:30px;
+border-radius:30px;
+text-align:center;
+}
+.stat h2{
+font-size:3rem;
+background:var(--accent);
+-webkit-background-clip:text;
+color:transparent;
+}
+.download{
+text-align:center;
+background:linear-gradient(145deg,rgba(124,92,255,.15),rgba(34,211,238,.08));
+padding:90px 30px;
+border-radius:50px;
+border:1px solid rgba(255,255,255,.08);
+}
+footer{
+padding:60px 8%;
+text-align:center;
+color:var(--muted);
+}
+.theme-switcher{
+position:fixed;
+right:24px;
+bottom:24px;
+display:flex;
+gap:12px;
+background:rgba(0,0,0,.45);
+padding:14px;
+border-radius:24px;
+backdrop-filter:blur(18px);
+z-index:999;
+}
+.theme-btn{
+width:50px;
+height:50px;
+border:none;
+border-radius:16px;
+cursor:pointer;
+font-size:1.2rem;
+transition:.25s;
+}
+.theme-btn:hover{transform:scale(1.08)}
+@media(max-width:1000px){
+.hero{flex-direction:column;text-align:center}
+nav{display:none}
+.hero-card{width:100%}
+}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<header>
+<div class="logo">
+<div class="logo-box"><i class="fas fa-bolt"></i></div>
+<div>RioX Universe</div>
+</div>
+<nav>
+<a href="#features">Features</a>
+<a href="#performance">Performance</a>
+<a href="#download">Download</a>
+<a href="#community">Community</a>
+</nav>
+</header>
+<section class="hero">
+<div class="hero-content">
+<div class="tag"><i class="fas fa-stars"></i> The next generation Windows optimization suite</div>
+<h1>Make Your PC Feel <span class="gradient">Unreal.</span></h1>
+<p>RioX Universe combines AAA visuals, advanced optimization systems, gaming tweaks, latency reduction, real-time performance tools, and a fully customizable theme engine into one futuristic experience.</p>
+<div class="buttons">
+<button class="btn btn-primary"><i class="fas fa-download"></i> Download Now</button>
+<button class="btn btn-secondary"><i class="fab fa-discord"></i> Join Discord</button>
+</div>
+<div class="stats">
+<div class="stat"><h2>+53%</h2><p>FPS Increase</p></div>
+<div class="stat"><h2>-38%</h2><p>Latency</p></div>
+<div class="stat"><h2>80+</h2><p>Optimizations</p></div>
+</div>
+</div>
+<div class="hero-card">
+<h3>Live Benchmark</h3>
+<div class="metric">
+<div class="metric-top"><span>Gaming FPS</span><span>53%</span></div>
+<div class="bar"><div class="fill" style="width:53%"></div></div>
+</div>
+<div class="metric">
+<div class="metric-top"><span>Boot Speed</span><span>47%</span></div>
+<div class="bar"><div class="fill" style="width:47%"></div></div>
+</div>
+<div class="metric">
+<div class="metric-top"><span>Input Latency</span><span>39%</span></div>
+<div class="bar"><div class="fill" style="width:39%"></div></div>
+</div>
+</div>
+</section>
+<section class="section" id="features">
+<div class="section-title">
+<span>Core Systems</span>
+<h2>Everything optimized.</h2>
+</div>
+<div class="grid">
+<div class="card"><div class="icon"><i class="fas fa-gamepad"></i></div><h3>Gaming Engine</h3><p>Unlock higher FPS, reduce stutter, and lower input delay with advanced Windows tuning.</p></div>
+<div class="card"><div class="icon"><i class="fas fa-memory"></i></div><h3>RAM Optimization</h3><p>Improve memory handling and process priority for smoother multitasking.</p></div>
+<div class="card"><div class="icon"><i class="fas fa-network-wired"></i></div><h3>Network Tweaks</h3><p>Reduce ping spikes with DNS optimization and TCP improvements.</p></div>
+<div class="card"><div class="icon"><i class="fas fa-palette"></i></div><h3>Theme Universe</h3><p>Switch between premium themes with animated gradients and lighting.</p></div>
+<div class="card"><div class="icon"><i class="fas fa-broom"></i></div><h3>Deep Debloat</h3><p>Remove unnecessary Windows services and background telemetry.</p></div>
+<div class="card"><div class="icon"><i class="fas fa-shield"></i></div><h3>Security Profiles</h3><p>Choose between competitive gaming mode or balanced protection.</p></div>
+</div>
+</section>
+<section class="section" id="download">
+<div class="download">
+<h2 style="font-size:4rem;margin-bottom:20px">Ready to transform your PC?</h2>
+<p style="max-width:700px;margin:auto auto 30px;color:var(--muted);line-height:1.8">Download RioX Universe and experience next-level speed, responsiveness, and customization.</p>
+<div class="buttons" style="justify-content:center">
+<button class="btn btn-primary">Download ZIP</button>
+<button class="btn btn-secondary">View GitHub</button>
+</div>
+</div>
+</section>
+<footer>
+© 2026 RioX Universe — Designed like a real premium software platform.
+</footer>
+<div class="theme-switcher">
+<button class="theme-btn" data-theme="default" style="background:linear-gradient(135deg,#7c5cff,#22d3ee)">🌌</button>
+<button class="theme-btn" data-theme="red" style="background:linear-gradient(135deg,#ff4d6d,#ffb703)">🔥</button>
+<button class="theme-btn" data-theme="green" style="background:linear-gradient(135deg,#00ff99,#00c2ff)">🟢</button>
+<button class="theme-btn" data-theme="purple" style="background:linear-gradient(135deg,#b5179e,#7209b7)">🔮</button>
+</div>
+<script>
+const canvas=document.getElementById('stars');
+const ctx=canvas.getContext('2d');
+let w,h,stars=[];
+function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight}
+window.addEventListener('resize',resize);resize();
+for(let i=0;i<160;i++)stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2,v:Math.random()*1+.2});
+function animate(){ctx.clearRect(0,0,w,h);stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,.8)';ctx.fill();s.y+=s.v;if(s.y>h){s.y=0;s.x=Math.random()*w}});requestAnimationFrame(animate)}animate();
+const themes={
+default:['#7c5cff','#22d3ee'],
+red:['#ff4d6d','#ffb703'],
+green:['#00ff99','#00c2ff'],
+purple:['#b5179e','#7209b7']
+};
+document.querySelectorAll('.theme-btn').forEach(btn=>{
+btn.onclick=()=>{
+const t=themes[btn.dataset.theme];
+document.documentElement.style.setProperty('--primary',t[0]);
+document.documentElement.style.setProperty('--secondary',t[1]);
+document.documentElement.style.setProperty('--accent',`linear-gradient(135deg,${t[0]},${t[1]})`);
+localStorage.setItem('riox-theme',btn.dataset.theme)
+}
+});
+const saved=localStorage.getItem('riox-theme');
+if(saved&&themes[saved])document.querySelector(`[data-theme="${saved}"]`).click();
+gsap.registerPlugin(ScrollTrigger);
+gsap.from('.hero-content',{opacity:0,y:80,duration:1});
+gsap.from('.hero-card',{opacity:0,x:80,duration:1,delay:.2});
+gsap.utils.toArray('.card').forEach(card=>{
+gsap.from(card,{scrollTrigger:card,opacity:0,y:60,duration:.8})
+});
+</script>
+</body>
+</html>
